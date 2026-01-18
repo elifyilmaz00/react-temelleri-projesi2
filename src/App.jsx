@@ -40,7 +40,7 @@ function App(){
 
       <div className="buton-grup">
         <button onClick={handleAzalt}>- Azalt</button>
-        <button onclick={handleArtir}>+ Artır</button>
+        <button onClick={handleArtir}>+ Artır</button>
       </div>
 
       <div style ={{marginTop: "20px"}}>

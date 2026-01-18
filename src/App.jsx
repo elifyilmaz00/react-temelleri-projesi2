@@ -1,41 +1,55 @@
-import { useState } from 'react';
-import './App.css';
+import { useState, useEffect} from 'react';
+import "./App.css";
 
-function App() {
-  // 1. başlangıç değeri 0 olan bir state oluştur.
+function App(){
   const [sayac, setSayac] = useState(0);
+  const [adim, setAdim] = useState(1);
 
-  //2. artır butonu için fonksiyon.
+  //1. boş dizi, sadece ilk render'da çalışır
+
+  useEffect(() => {
+    console.log("useEffect [boş dizi]: component ilk kez ekrana çizildi (Mount).");
+    
+  }, []); //bağımlılık dizisi boş
+
+  //2. değer içeren dizi, ilk renderda ve sayac her değiştiğinde çalışır
+
+  useEffect(() => {
+    console.log("useEffect [sayac]: sayac state'i değişti. ");
+    //tarayıcının başlığını güncelle
+    document.title = "Sayaç: ${sayac}";
+  }, [sayac]); //bağımlılık dizisine sayaç var
+
+  //adım state değişirse bu efekt çalışmaz
+  useEffect(() => {
+    console.log("useEffect [adim]: adim state'i değişti. ");
+  }, [adim]); //bağımlılık dizisine adım var
+
   const handleArtir = () => {
-    setSayac(sayac + 1);
+    setSayac(mevcutsayac => mevcutsayac + adim);
   };
 
-  //3. azalt butonu için fonksiyon.
   const handleAzalt = () => {
-
-    setSayac(sayac - 1);
-
+    setSayac(mevcutSayac => mevcutSayac - adim);
   };
 
-  //4. sıfırlama butonu için fonksiyon.
-
-  const handleSifirla = () => {
-    setSayac(0);
-  };
-
-  
   return (
     <div className="sayac-container">
-      <h1>React Sayaç</h1>
+      <h1>useEffect Hook'u</h1>
       <p className="sayac-degeri">{sayac}</p>
+
       <div className="buton-grup">
         <button onClick={handleAzalt}>- Azalt</button>
-        <button onClick={handleSifirla}>0 Sıfırla</button>
-        <button onClick={handleArtir}>+ Artır</button>
+        <button onclick={handleArtir}>+ Artır</button>
+      </div>
+
+      <div style ={{marginTop: "20px"}}>
+        <p>Artış Miktarı: {adim}</p>
+        <button onClick={()=> setAdim(1)}>1</button>
+        <button onClick={()=> setAdim(5)}>5</button>
+        <button onClick={()=> setAdim(10)}>10</button>
       </div>
     </div>
-    
-    
   );
 }
 
